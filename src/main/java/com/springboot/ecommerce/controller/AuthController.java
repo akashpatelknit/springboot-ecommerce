@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     @GetMapping
     public String test(){
-        return  "Hi akash this side";
+        return  "Hi shiavngi this side";
     }
 }
