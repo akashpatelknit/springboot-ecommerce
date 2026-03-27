@@ -14,7 +14,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Payment extends BaseEntity{
+public class Payment extends BaseEntity {
+
     @Column(name = "transaction_id", nullable = false, unique = true, length = 255)
     @NotBlank
     private String transactionId;
@@ -32,7 +33,6 @@ public class Payment extends BaseEntity{
     @Builder.Default
     private PaymentStatus status = PaymentStatus.INITIATED;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "amount", nullable = false, precision = 10, scale = 2)
     private BigDecimal amount;
 
@@ -49,4 +49,9 @@ public class Payment extends BaseEntity{
 
     @Column(name = "refund_amount", precision = 10, scale = 2)
     private BigDecimal refundAmount;
+
+    // ✅ FIXED RELATION
+    @OneToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
 }

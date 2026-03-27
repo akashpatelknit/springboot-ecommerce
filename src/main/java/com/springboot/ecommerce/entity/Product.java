@@ -53,4 +53,8 @@ public class Product extends BaseEntity{
     @Column(name = "review_count", nullable = false)
     @Builder.Default
     private Integer reviewCount = 0;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
 }

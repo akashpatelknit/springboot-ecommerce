@@ -1,4 +1,4 @@
 package com.springboot.ecommerce.dto.response;
 
-public class UserResponseDTO {
+public class UserResponse {
 }
