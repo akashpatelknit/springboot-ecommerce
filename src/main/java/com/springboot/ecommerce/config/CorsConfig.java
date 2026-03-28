@@ -16,7 +16,7 @@ public class CorsConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
 
-        config.setAllowedOrigins(List.of("http://localhost:8081/")); // frontend URL
+        config.setAllowedOrigins(List.of("https://maison-flame.vercel.app")); // frontend URL
         config.setAllowedHeaders(List.of("*"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
