@@ -36,15 +36,20 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<PageResponse<ProductResponse>>> getAll(Pageable pageable) {
+    public ResponseEntity<ApiResponse<List<ProductResponse>>> getAll(Pageable pageable) {
 
         Page<ProductResponse> page = productService.getAll(pageable);
 
         return ResponseEntity.ok(
-                ApiResponse.<PageResponse<ProductResponse>>builder()
+                ApiResponse.<List<ProductResponse>>builder()
                         .success(true)
                         .message("Products fetched successfully")
-                        .data(new PageResponse<>(page))
+                        .data(page.getContent()) // ✅ only list
+                        .page(page.getNumber())
+                        .size(page.getSize())
+                        .totalElements(page.getTotalElements())
+                        .totalPages(page.getTotalPages())
+                        .last(page.isLast())
                         .build()
         );
     }

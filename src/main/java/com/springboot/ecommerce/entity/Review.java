@@ -35,4 +35,8 @@ public class Review extends BaseEntity{
     @Column(name = "helpful_votes", nullable = false)
     @Builder.Default
     private Integer helpfulVotes = 0;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

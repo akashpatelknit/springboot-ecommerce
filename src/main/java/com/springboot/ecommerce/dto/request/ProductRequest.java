@@ -3,6 +3,7 @@ package com.springboot.ecommerce.dto.request;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -15,4 +16,6 @@ public class ProductRequest {
     private Integer stockQuantity;
     private BigDecimal weightKg;
     private UUID categoryId;
+    private String imageUrl;
+    private Boolean isPrimary;
 }

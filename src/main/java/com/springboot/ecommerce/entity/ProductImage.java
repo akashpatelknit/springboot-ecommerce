@@ -1,8 +1,7 @@
 package com.springboot.ecommerce.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
@@ -14,6 +13,12 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class ProductImage extends BaseEntity{
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "product_id", nullable = false)
+    @JsonIgnore
+    private Product product;
+
     @Column(name = "image_url", nullable = false, length = 1000)
     @NotBlank
     private String imageUrl;

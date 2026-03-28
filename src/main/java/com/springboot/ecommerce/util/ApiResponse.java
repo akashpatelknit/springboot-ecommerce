@@ -10,4 +10,11 @@ public class ApiResponse<T> {
     private boolean success;
     private String message;
     private T data;
+
+    // ✅ Add these fields
+    private Integer page;
+    private Integer size;
+    private Long totalElements;
+    private Integer totalPages;
+    private Boolean last;
 }

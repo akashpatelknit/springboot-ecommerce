@@ -6,6 +6,10 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -14,22 +18,18 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class User extends BaseEntity{
+public class User extends BaseEntity {
+
     @Column(name = "first_name", nullable = false, length = 100)
-    @NotBlank
     private String firstName;
 
     @Column(name = "last_name", nullable = false, length = 100)
-    @NotBlank
     private String lastName;
 
     @Column(name = "email", nullable = false, unique = true, length = 150)
-    @Email
-    @NotBlank
     private String email;
 
     @Column(name = "password_hash", nullable = false)
-    @NotBlank
     private String passwordHash;
 
     @Column(name = "phone_number", length = 20)
@@ -46,4 +46,28 @@ public class User extends BaseEntity{
 
     @Column(name = "last_login_at")
     private LocalDateTime lastLoginAt;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    @Builder.Default
+    private Set<Role> roles = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<Address> addresses = new ArrayList<>();
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Cart cart;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+    @Builder.Default
+    private List<Order> orders = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
+    @Builder.Default
+    private List<Review> reviews = new ArrayList<>();
 }

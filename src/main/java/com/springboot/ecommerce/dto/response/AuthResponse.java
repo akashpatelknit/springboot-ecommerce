@@ -1,4 +1,4 @@
-package com.springboot.ecommerce.dto.request;
+package com.springboot.ecommerce.dto.response;
 
 import lombok.*;
 
@@ -7,8 +7,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserRequest {
+public class AuthResponse {
+    private String token;
+    private String email;
     private String firstName;
     private String lastName;
-    private String phoneNumber;
 }

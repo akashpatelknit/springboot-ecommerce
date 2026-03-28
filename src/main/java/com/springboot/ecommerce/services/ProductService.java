@@ -1,9 +1,11 @@
 package com.springboot.ecommerce.services;
 
 import com.springboot.ecommerce.dto.request.ProductRequest;
+import com.springboot.ecommerce.dto.response.ProductImageResponse;
 import com.springboot.ecommerce.dto.response.ProductResponse;
 import com.springboot.ecommerce.entity.Category;
 import com.springboot.ecommerce.entity.Product;
+import com.springboot.ecommerce.entity.ProductImage;
 import com.springboot.ecommerce.repository.CategoryRepository;
 import com.springboot.ecommerce.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +38,17 @@ public class ProductService {
                 .weightKg(request.getWeightKg())
                 .category(category)
                 .build();
+
+        if (request.getImageUrl() != null) {
+
+            ProductImage image = ProductImage.builder()
+                    .imageUrl(request.getImageUrl())
+                    .isPrimary(Boolean.TRUE.equals(request.getIsPrimary()))
+                    .product(product)
+                    .build();
+
+            product.getImages().add(image);
+        }
 
         product = productRepository.save(product);
 
@@ -80,20 +93,29 @@ public class ProductService {
     }
 
     private ProductResponse mapToResponse(Product product) {
+
+        List<ProductImageResponse> images = product.getImages() == null
+                ? List.of()
+                : product.getImages().stream()
+                .map(img -> ProductImageResponse.builder()
+                        .id(img.getId().toString())
+                        .imageUrl(img.getImageUrl())
+                        .altText(img.getAltText())
+                        .isPrimary(img.getIsPrimary())
+                        .sortOrder(img.getSortOrder())
+                        .build())
+                .toList();
+
         return ProductResponse.builder()
                 .id(product.getId())
                 .name(product.getName())
                 .description(product.getDescription())
-                .sku(product.getSku())
                 .price(product.getPrice())
                 .discountPrice(product.getDiscountPrice())
+                .categoryName(product.getCategory().getName())
+                .categoryId(product.getCategory().getId())
                 .stockQuantity(product.getStockQuantity())
-                .status(product.getStatus().name())
-                .categoryName(
-                        product.getCategory() != null
-                                ? product.getCategory().getName()
-                                : null
-                )
+                .images(images)
                 .build();
     }
 }
